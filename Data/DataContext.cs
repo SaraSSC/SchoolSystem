@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SchoolSystem.Data.Entities;
 using System.Linq;
 using SchoolSystem.Models.API;
+using SchoolSystem.Models.Reports;
 namespace SchoolSystem.Data
 {
     public class DataContext : IdentityDbContext<User>
@@ -68,6 +69,8 @@ namespace SchoolSystem.Data
         }
 
         public DbSet<SchoolSystem.Models.API.APIViewModel> APIViewModel { get; set; }
+
+        public DbSet<SchoolSystem.Models.Reports.ReportsViewModel> ReportsViewModel { get; set; }
     }
 }
 

@@ -1,0 +1,57 @@
+﻿@model SchoolSystem.Models.Accounts.LoginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="container">
+    <div class="row align-items-center" style="height: 100vh;">
+        <!-- Image Column -->
+        <div class="col-md-6 d-none d-md-block">
+            <img src="~/images/changbok-login.jpg" class="img-fluid animated--grow-in" style="height: 90vh; object-fit: cover; margin-top: 10vh; margin-bottom: 20vh" />
+        </div>
+        <!-- Form Column -->
+        <div class="col-md-6">
+            <h3 class="text-center">Welcome back</h3>
+            <span><br /></span>
+            <h4 class="text-center">Login</h4>
+            <br>
+            <div class="row">
+                <div class="col-md-8 offset-md-2 animated--grow-in">
+                    <form method="post">
+                        <div class="form-group">
+                            <label asp-for="Username">Username</label>
+                            <input asp-for="Username" class="form-control bg-light" />
+                            <span asp-validation-for="Username" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Password">Password</label>
+                            <input asp-for="Password" type="password" class="form-control bg-light" />
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group text-center">
+                            <div class="form-check">
+                                <input asp-for="RememberMe" type="checkbox" class="form-check-input" />
+                                <label asp-for="RememberMe" class="form-check-label">Remember Me?</label>
+                            </div>
+                            <span asp-validation-for="RememberMe" class="text-danger small"></span>
+                        </div>
+                        <div class="form-group text-center">
+                            <input type="submit" value="Login" class="btn btn-success" />
+                        </div>
+                        <div class="col-md-8 offset-md-2 nav-item text-center">
+                            <a asp-action="RecoverPassword" class="nav-link text-dark">Forgot password?</a>
+                        </div>
+                        <div class="text-danger text-center mr-4" asp-validation-summary="ModelOnly"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -3,15 +3,28 @@
     ViewData["Title"] = "Error";
 }
 
-<h1 class="text-danger">Error.</h1>
-<h2 class="text-danger">An error occurred while processing your request.</h2>
-
-@if (Model.ShowRequestId)
-{
-    <p>
-        <strong>Request ID:</strong> <code>@Model.RequestId</code>
-    </p>
-}
+<div class="account-pages my-5 pt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="text-center mb-5">
+                    <h1 class="display-2 fw-medium">5<i class="fa fa-solid fa-spinner bx-spin text-primary display-3"></i>0</h1>
+                    <h4 class="text-uppercase">Internal Server Error</h4>
+                    <div class="mt-5 text-center">
+                        <a class="btn btn-primary" asp-controller="Home" asp-action="Index">Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-xl-6">
+                <div>
+                    <img src="~/images/error-img.png" alt="" class="img-fluid" style=" overflow-clip-margin:content-box; overflow: clip">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <h3>Development Mode</h3>
 <p>
@@ -23,3 +36,4 @@
     For local debugging, enable the <strong>Development</strong> environment by setting the <strong>ASPNETCORE_ENVIRONMENT</strong> environment variable to <strong>Development</strong>
     and restarting the app.
 </p>
+    

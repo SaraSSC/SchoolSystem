@@ -1,0 +1,99 @@
+﻿@model SchoolSystem.Models.CourseDisciplines.CourseDisciplinesSelectableViewModel
+@{
+	ViewData["Title"] = "Edit Course Discipline";
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title text-center mb-4">Edit Course Disciplines</h3>
+                <form method="post">
+                    <input type="hidden" asp-for="CourseId" />
+                    <div class="mb-4">
+                        <input asp-for="CourseName" class="form-control form-control-lg bg-gradient-primary text-light font-weight-bold" style="border-radius: 10px;" readonly />
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover" id="EditCourseDisciplines">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.DisciplinesSelectable.FirstOrDefault().Code)</th>
+                                    <th>@Html.DisplayNameFor(model => model.DisciplinesSelectable.FirstOrDefault().Name)</th>
+                                    <th>@Html.DisplayNameFor(model => model.DisciplinesSelectable.FirstOrDefault().Area)</th>
+                                    <th>@Html.DisplayNameFor(model => model.DisciplinesSelectable.FirstOrDefault().Duration)</th>
+                                    <th>@Html.DisplayNameFor(model => model.DisciplinesSelectable.FirstOrDefault().IsSelected)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.DisciplinesSelectable != null)
+                                {
+                                    @for (int i = 0; i < Model.DisciplinesSelectable.Count(); i++)
+                                    {
+                                        <tr>
+                                            <td class="align-middle font-weight-bold">
+                                                <input type="hidden" asp-for="@Model.DisciplinesSelectable[i].Id" />
+                                                @Html.DisplayFor(modelItem => @Model.DisciplinesSelectable[i].Code)
+                                            </td>
+                                            <td class="align-middle">
+                                                @Html.DisplayFor(modelItem => @Model.DisciplinesSelectable[i].Name)
+                                            </td>
+                                            <td class="align-middle">
+                                                @Html.DisplayFor(modelItem => Model.DisciplinesSelectable[i].Area)
+                                            </td>
+                                            <td class="align-middle">
+                                                @Html.DisplayFor(modelItem => Model.DisciplinesSelectable[i].Duration) Hours
+                                            </td>
+                                            <td class="align-middle">
+                                                <div class="form-check">
+                                                    @Html.CheckBoxFor(modelItem => Model.DisciplinesSelectable[i].IsSelected, new { @class = "form-check-input" })
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </form>
+          
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+    <div class="text-center mt-3">
+        <a asp-action="DetailsCourseDisciplines" asp-route-id="@Model.CourseId" class="btn btn-link">Back to Details</a>
+    </div>
+    <div class="mt-4 text-center text-success">
+        <p>@Html.Raw(ViewBag.Message)</p>
+    </div>
+</div>
+
+
+@section Scripts {
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#EditCourseDisciplines').DataTable({
+                responsive: true,
+                columnDefs: [{
+                    "targets": [4],
+                    "orderable": false,
+                    "searchable": false
+                }],
+                order: [[1, 'asc']]
+            });
+        });
+    </script>
+}

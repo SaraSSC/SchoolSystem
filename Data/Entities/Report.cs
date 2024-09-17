@@ -36,7 +36,7 @@ namespace SchoolSystem.Data.Entities
         public bool? Status { get; set; }
 
 
-        [Display(Name = "Solved Date")]
+        [Display(Name = "Status/Solving Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = false)]
         public DateTime? StatusDate { get; set; }
     }

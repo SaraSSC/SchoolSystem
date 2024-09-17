@@ -1,0 +1,54 @@
+﻿@model SchoolSystem.Models.Reports.ReportsViewModel
+@{
+	ViewData["Title"] = "New Report";
+}
+<br>
+<br>
+<h3 class="text-center">New Report</h3>
+<br>
+<div class="row">
+    <div class="col-md-12 offset-md-2">
+        <form method="post">
+            <input type="hidden" asp-for="UserId" />
+            <div class="container">
+                <div class="row">
+                    <div class="form-group col-md-8">
+                        <label asp-for="Title">Title</label>
+                        <input asp-for="Title" class="form-control bg-light" />
+                        <span asp-validation-for="Title" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-8">
+                        <label asp-for="Message">Message</label>
+                        <textarea asp-for="Message" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Message" class="text-danger small"></span>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 offset-md-2">
+                        <div class="form-group text-center">
+                            <input type="submit" value="Save" class="btn btn-success" />
+                       </div>
+                       <div class="col-md-4 offset-md-2">
+                           
+                         <a asp-action="StaffIndexReports"  class="btn btn-outline-danger offset-md-10" ><span>Back</span></a>
+                        </div>
+                        <div class="col-md-4 offset-md-2">
+                            <div class="text-danger text-center mr-4" asp-validation-summary="ModelOnly"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

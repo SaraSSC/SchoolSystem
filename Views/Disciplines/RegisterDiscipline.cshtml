@@ -1,0 +1,59 @@
+﻿@model SchoolSystem.Models.Disciplines.DisciplinesViewModel
+
+@{
+    ViewData["Title"] = "New Discipline";
+}
+
+<br>
+<br>
+<h3 class="text-center">New Discipline</h3>
+<br>
+<br>
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <form method="post">
+            <div class="row">
+                <div class="form-group col-md-6 animated--grow-in">
+                    <label asp-for="Code">Code</label>
+                    <input asp-for="Code" class="form-control bg-light" />
+                    <span asp-validation-for="Code" class="text-danger small"></span>
+                </div>
+                <div class="form-group col-md-6 animated--grow-in">
+                    <label asp-for="Duration">Duration</label>
+                    <input asp-for="Duration" class="form-control bg-light" />
+                    <span asp-validation-for="Duration" class="text-danger small"></span>
+                </div>
+            </div>
+            <div class="form-group animated--grow-in">
+                <label asp-for="Name">Name</label>
+                <input asp-for="Name" class="form-control bg-light" />
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+            <div class="form-group animated--grow-in">
+                <label asp-for="Area">Area</label>
+                <input asp-for="Area" class="form-control" />
+                <span asp-validation-for="Area" class="text-danger small"></span>
+            </div>
+            <br>
+            <div class="form-group text-center animated--grow-in">
+                <input type="submit" value="Save" class="btn btn-success" />
+            </div>
+            <div class="text-danger text-center mr-4 animated--grow-in" asp-validation-summary="ModelOnly"></div>
+        </form>
+        <div class="col-md-2 offset-md-5 nav-item text-center">
+            <a asp-controller="Disciplines" asp-action="AdminIndexDisciplines" class="btn btn-outline-danger animated--grow-in">Back</a>
+        </div>
+    </div>
+</div>
+<br>
+<div class="text-success text-center">
+    <p>
+        @Html.Raw(ViewBag.Message)
+    </p>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

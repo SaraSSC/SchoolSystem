@@ -1,0 +1,124 @@
+﻿@model SchoolSystem.Models.Reports.ReportsViewModel
+
+@{
+    ViewData["Title"] = "Report Details";
+    
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+<br>
+<br>
+<h3 class="text-center">Report Details</h3>
+<br>
+<br>
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="UserId" />
+            <input type="hidden" asp-for="Title" />
+            <input type="hidden" asp-for="Message" />
+            <input type="hidden" asp-for="Date" />
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <table class="table table-hover table-responsive table-striped animated--grow-in" id="AdminReportDetails">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Status)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Age)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Title)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.User.FullName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Date)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.StatusDate)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @if (Model != null)
+                                {
+                                    <td class="align-middle text-center">
+                                        @if (Model.Status == true)
+                                        {
+                                            <i style="font-size: 28px; color: darkgreen;" class="fa">&#xf14a;</i>
+                                        }
+                                        else
+                                        {
+                                            <i style="font-size: 26px; color: darkred;" class="fa">&#xf071;</i>
+                                        }
+                                    </td>
+                                    <td class="align-middle font-weight-bold">
+                                        @Model.Age
+                                    </td>
+                                    <td class="align-middle">
+                                        @Model.Title
+                                    </td>
+                                    <td class="align-middle">
+                                        @Model.User.FullName
+                                    </td>
+                                    <td class="align-middle">
+                                        @Model.Date.ToString("dd/MM/yyyy")
+                                    </td>
+                                    <td class="align-middle">
+                                        @if (Model.Status == true)
+                                        {
+                                            @Model.StatusDate.ToString().Split(" ")[0]
+
+                                        }
+                                        else
+                                        {
+                                            <div>Pending</div>
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                    <div class="row">
+                        <div class="form-group col-md-12">
+                            <input asp-for="Title" class="form-control font-weight-bold bg-primary" style="height: 3rem; color: white;" disabled="disabled" />
+                            <textarea asp-for="Message" class="form-control" rows="3" disabled="disabled"></textarea>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group text-center animated--grow-in">
+                                @if (Model.Status == true)
+                                {
+                                    <input type="submit" value="Solved" class="btn btn-success" disabled="disabled" />
+                                }
+                                else
+                                {
+                                    <input type="submit" value="Solved" class="btn btn-success" />
+                                }
+                            </div>
+                            <div class="col-md-2 offset-md-5 nav-item text-center">
+                                <a asp-action="AdminIndexReports" class="btn btn-outline-danger ">Back</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+}

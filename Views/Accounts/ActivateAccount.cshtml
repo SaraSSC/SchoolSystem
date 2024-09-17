@@ -1,0 +1,55 @@
+﻿@model SchoolSystem.Models.Accounts.ActivateAccountViewModel
+@{
+    ViewData["Title"] = "Activate Account";
+    Layout = "StaffIndexReports";
+}
+
+<br>
+<br>
+<h3 class="text-center">Activate Account</h3>
+<br>
+<br>
+<div class="col-md-4 offset-md-4 p-2 mb-2 bg-success rounded text-white text-center">
+    <p class="my-auto">
+        @Html.Raw(ViewBag.MessageEmail)
+    </p>
+</div>
+<br>
+<br>
+<h3 class="text-center">Change Password</h3>
+<br>
+<br>
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <form method="post">
+            <div class="form-group animated--fade-in">
+                <label asp-for="Password">Password</label>
+                <input asp-for="Password" type="password" class="form-control bg-light" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+            <div class="form-group animated--fade-in">
+                <label asp-for="Confirm">Confirm</label>
+                <input asp-for="Confirm" type="password" class="form-control bg-light" />
+                <span asp-validation-for="Confirm" class="text-danger small"></span>
+            </div>
+            <br>
+            <div class="form-group text-center animated--fade-in">
+                <input type="submit" value="Submit" class="btn btn-success" />
+            </div>
+            <div class="text-danger text-center mr-4" asp-validation-summary="ModelOnly"></div>
+        </form>
+    </div>
+</div>
+<br>
+<div class="text-danger text-center">
+    <p>
+        @Html.Raw(ViewBag.Message)
+    </p>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

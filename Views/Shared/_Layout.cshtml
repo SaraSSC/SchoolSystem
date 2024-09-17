@@ -1,47 +1,218 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SchoolSystem</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+
+    <!--Personalized style-->
+    <link rel="stylesheet" href="~/css/site_css.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+    <link rel="stylesheet" href="~/lib/datatables.net-bs4/css/dataTables.bootstrap4.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SchoolSystem</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
+    <div id="wrapper" class="d-flex">
+        <nav class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+                <div class="sidebar-brand-icon">
+                    <img src="~/images/university.jpg" alt="Logo" width="50" height="50" />
+                </div>
+                <div class="sidebar-brand-text mx-3">School System</div>
+            </a>
+            <hr class="sidebar-divider my-0">
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                <br />
+                <li class="nav-item">
+                    <a asp-controller="Users" asp-action="EditOwnProfile">
+                        <img src="@Url.Content(TempData.Peek("SessionUserProfilePicture").ToString())" alt="Image" class="sidebar-brand-icon" style="vertical-align: middle; width: 44px; height: 44px; border-radius: 50px; margin-left: 45px" />
+                    </a>
+                    @*  </li>
+                <li class="nav-item"> *@
+                    <a class="nav-link text-warning" asp-area="" asp-controller="Users" asp-action="EditOwnProfile" style="margin-left:30px">@TempData.Peek("SessionUserFirstName").ToString()</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="fas fa-fw fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Accounts" asp-action="Login">
+                        <i class="fas fa-fw fa-user"></i><span>Login</span>
+                    </a>
+                </li>
+            }
+
+            </li>
+            <hr class="sidebar-divider">
+            <div class="sidebar-heading">
+                Navigation Panel
+            </div>
+            <li class="nav-item">
+                <a class="nav-link" asp-controller="Home" asp-action="Index">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>Home</span>
+                </a>
+            </li>
+
+            @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                       aria-expanded="true" aria-controls="collapseUtilities">
+                        <i class="fas fa-fw fa-wrench"></i>
+                        <span>Management</span>
+                    </a>
+                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                         data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">School Utils:</h6>
+                            <a class="collapse-item" asp-controller="Courses" asp-action="AdminIndexCourses">Courses</a>
+                            <a class="collapse-item" asp-controller="Disciplines" asp-action="AdminIndexDisciplines">Disciplines</a>
+
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities2"
+                       aria-expanded="true" aria-controls="collapseUtilities">
+                        <i class="fas fa-fw fa-solid fa-people-group"></i>
+                        <span>Users</span>
+                    </a>
+                    <div id="collapseUtilities2" class="collapse" aria-labelledby="headingUtilities"
+                         data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">User Utils:</h6>
+                            <a class="collapse-item" asp-controller="Users" asp-action="RegisterUser">New User</a>
+                            <a class="collapse-item" asp-controller="Users" asp-action="EditUsers">Edit User</a>
+
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Reports" asp-action="AdminIndexReports">
+                        <i class="fas fa-fw fa-solid fa-file-lines"></i>
+                        <span>Reports</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Configurations">
+                        <i class="fas fa-fw fa-gear"></i>
+                        <span>Configurations</span>
+                    </a>
+                </li>
+
+            }
+
+            @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Staff"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                       aria-expanded="true" aria-controls="collapseUtilities">
+                        <i class="fas fa-fw fa-wrench"></i>
+                        <span>Management</span>
+                    </a>
+                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                         data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">School Utils:</h6>
+                            <a class="collapse-item" asp-controller="CourseDisciplines" asp-action="StaffIndexCourses">Courses</a>
+                            <a class="collapse-item" asp-controller="Classes" asp-action="StaffIndexClasses">Classes</a>
+
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities1"
+                       aria-expanded="true" aria-controls="collapseUtilities">
+                        <i class="fas fa-fw fa-solid fa-people-group"></i>
+                        <span>Students</span>
+                    </a>
+                    <div id="collapseUtilities1" class="collapse" aria-labelledby="headingUtilities"
+                         data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Student Utils:</h6>
+                            <a class="collapse-item" asp-controller="Users" asp-action="RegisterStudent">New</a>
+                           
+                            <a class="collapse-item" asp-controller="Users" asp-action="EditStudents">Edit</a>
+                  
+                            <a class="collapse-item" asp-controller="Absences" asp-action="RegisterAbsenceClasses">Absences</a>
+                            
+                            <a class="collapse-item" asp-controller="Evaluations" asp-action="StaffIndexEvaluations"><i class="fas fa-fw fa-solid fa-arrow-up-right-dots"></i><span>Evaluations</span></a>
+
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link text-light" asp-area="" asp-controller="Reports" asp-action="StaffIndexReports">
+                        <i class="fas fa-fw fa-solid fa-file-lines"></i><span>Reports</span>
+                    </a>
+                </li>
+            }
+
+            @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Student"))
+            {
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                       aria-expanded="true" aria-controls="collapseUtilities">
+                        <i class="fas fa-fw fa-solid fa-people-group"></i>
+                        <span>Students</span>
+                    </a>
+                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                         data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Utils:</h6>
+                            <a class="dropdown-item" asp-area="" asp-controller="Evaluations" asp-action="StudentEvaluationsCourses" asp-route-userName="@this.User.Identity.Name"> <i class="fas fa-fw fa-solid fa-arrow-up-right-dots"></i><span>Evaluations</span></a>
+                        </div>
+                    </div>
+                </li>
+
+            }
+
+            @if (this.User.Identity.IsAuthenticated && this.User.IsInRole("Admin") || this.User.Identity.IsAuthenticated && this.User.IsInRole("Staff"))
+            {
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Home" asp-action="Privacy">
+                        <i class="fas fa-fw fa-shield"></i>
+                        <span>Privacy</span>
+                    </a>
+                </li>
+                <hr class="sidebar-divider d-none d-md-block">
+            }
+
+        </nav>
+
+        <!--Razor render-->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div id="content">
+                <div class="container-fluid">
+                    <main role="main" class="pb-3">
+                        @RenderBody()
+                    </main>
+
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - SchoolSystem - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <!-- Footer -->
+            <div class="sticky-footer">
+                <footer class="border-top footer text-muted">
+                    <div class="container">
+                        &copy; @DateTime.Now.Year - Sara Carvalho - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                    </div>
+                </footer>
+            </div>
         </div>
-    </footer>
+    </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib//bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

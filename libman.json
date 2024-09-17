@@ -1,0 +1,29 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+	"libraries": [
+		{
+			"library": "font-awesome@6.6.0",
+			"destination": "wwwroot/lib/font-awesome/"
+		},
+		{
+			"library": "Chart.js@4.4.1",
+			"destination": "wwwroot/lib/Chart.js/"
+		},
+		{
+			"provider": "cdnjs",
+			"library": "bootstrap-datepicker@1.10.0",
+			"destination": "wwwroot/lib/bootstrap-datepicker/"
+		},
+		{
+			"provider": "cdnjs",
+			"library": "datatables.net@2.1.6",
+			"destination": "wwwroot/lib/datatables.net/"
+		},
+		{
+			"provider": "cdnjs",
+			"library": "datatables.net-bs4@3.2.2",
+			"destination": "wwwroot/lib/datatables.net-bs4/"
+		}
+	]
+}

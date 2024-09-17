@@ -1,0 +1,54 @@
+﻿@model SchoolSystem.Models.Configurations.ConfigurationViewModel
+
+@{
+	ViewBag.Title = "Configurations";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Configurations</h2>
+
+                    <form method="post">
+                        <div class="row g-3 mb-3 animated--grow-in">
+                            <div class="col-md-6">
+                                <label asp-for="MaxStudentsClass" class="form-label">Max number of students</label>
+                                <input asp-for="MaxStudentsClass" class="form-control" />
+                                <span asp-validation-for="MaxStudentsClass" class="text-danger small"></span>
+                            </div>
+                            <br />
+                            <div class="col-md-6">
+                                <label asp-for="MaxPercentageAbsence" class="form-label">Max percentage of absences</label>
+                                <input asp-for="MaxPercentageAbsence" class="form-control" />
+                                <span asp-validation-for="MaxPercentageAbsence" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+
+                        <div class="d-grid gap-2 animated--grow-in">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <a asp-controller="Disciplines" asp-action="AdminIndexDisciplines" class="btn btn-outline-secondary">Back to List</a>
+                        </div>
+
+                        <div class="text-danger mt-3" asp-validation-summary="ModelOnly"></div>
+                    </form>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(ViewBag.Message))
+            {
+                <div class="alert alert-success mt-4 text-center animated--grow-in" role="alert">
+                    @Html.Raw(ViewBag.Message)
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

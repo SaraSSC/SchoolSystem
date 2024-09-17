@@ -1,0 +1,63 @@
+﻿@model SchoolSystem.Models.Courses.CoursesViewModel
+@{
+	ViewData["Title"] = "Edit Course";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h2 class="card-title text-center mb-4">Edit Discipline</h2>
+
+                    <form method="post">
+                        <div class="row g-3 mb-3 animated--grow-in">
+                            <div class="col-md-6">
+                                <label asp-for="Code" class="form-label">Code</label>
+                                <input asp-for="Code" class="form-control" />
+                                <span asp-validation-for="Code" class="text-danger small"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label asp-for="Duration" class="form-label">Duration</label>
+                                <input asp-for="Duration" class="form-control" />
+                                <span asp-validation-for="Duration" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 animated--grow-in">
+                            <label asp-for="Name" class="form-label">Name</label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+
+                        <div class="mb-3 animated--grow-in">
+                            <label asp-for="Area" class="form-label">Area</label>
+                            <input asp-for="Area" class="form-control" />
+                            <span asp-validation-for="Area" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid gap-2 animated--grow-in">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <a asp-controller="Courses" asp-action="AdminIndexCourses" class="btn btn-outline-secondary">Back to List</a>
+                        </div>
+
+                        <div class="text-danger mt-3" asp-validation-summary="ModelOnly"></div>
+                    </form>
+                </div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(ViewBag.Message))
+            {
+                <div class="alert alert-success mt-4 text-center animated--grow-in" role="alert">
+                    @Html.Raw(ViewBag.Message)
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

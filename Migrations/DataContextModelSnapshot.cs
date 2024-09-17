@@ -404,6 +404,10 @@ namespace SchoolSystem.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasMaxLength(8000)
@@ -429,6 +433,8 @@ namespace SchoolSystem.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Reports");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Report");
                 });
 
             modelBuilder.Entity("SchoolSystem.Data.Entities.Student", b =>
@@ -615,6 +621,13 @@ namespace SchoolSystem.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("APIViewModel");
+                });
+
+            modelBuilder.Entity("SchoolSystem.Models.Reports.ReportsViewModel", b =>
+                {
+                    b.HasBaseType("SchoolSystem.Data.Entities.Report");
+
+                    b.HasDiscriminator().HasValue("ReportsViewModel");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

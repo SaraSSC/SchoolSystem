@@ -1,0 +1,78 @@
+﻿@model SchoolSystem.Models.Classes.RegisterClassViewModel
+@{
+    ViewData["Title"] = "New Class";
+}
+
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h3 class="card-title text-center mb-4">New Class</h3>
+            <form method="post">
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label asp-for="Code" class="form-label">Code</label>
+                        <input asp-for="Code" class="form-control" />
+                        <span asp-validation-for="Code" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-9">
+                        <label asp-for="Name" class="form-label">Name</label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="CourseId" class="form-label">Course</label>
+                    <select asp-for="CourseId" asp-items="Model.Courses" class="form-select"></select>
+                    <span asp-validation-for="CourseId" class="text-danger small"></span>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label asp-for="StartingDate" class="form-label">Start Date</label>
+                        <div class="input-group">
+                            <input type="text" asp-for="StartingDate" class="form-control datepicker" value="">
+                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                        </div>
+                        <span asp-validation-for="StartingDate" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="EndingDate" class="form-label">End Date</label>
+                        <div class="input-group">
+                            <input type="text" asp-for="EndingDate" class="form-control datepicker" value="">
+                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                        </div>
+                        <span asp-validation-for="EndingDate" class="text-danger small"></span>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                <div class="text-danger text-center mt-3" asp-validation-summary="ModelOnly"></div>
+            </form>
+            <div class="text-center mt-3">
+                <a asp-controller="Classes" asp-action="StaffIndexClasses" class="btn btn-link">Back to Classes</a>
+            </div>
+        </div>
+    </div>
+    <div class="mt-4 text-center text-danger">
+        <p>@Html.Raw(ViewBag.Message)</p>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                orientation: "bottom",
+                autoclose: true
+            });
+        });
+    </script>
+}

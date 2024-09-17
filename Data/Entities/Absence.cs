@@ -5,7 +5,7 @@ using SchoolSystem.Data.Entities;
 
 namespace SchoolSystem.Data.Entities
 {
-    public class Absence
+    public class Absence : IEntity
     {
         public int Id { get; set; }
 

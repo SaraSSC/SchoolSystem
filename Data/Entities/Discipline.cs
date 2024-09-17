@@ -3,7 +3,7 @@ using SchoolSystem.Data.Entities;
 
 namespace SchoolSystem.Data.Entities
 {
-    public class Discipline
+    public class Discipline : IEntity
     {
         public int Id { get; set; }
 

@@ -1,0 +1,74 @@
+﻿@model SchoolSystem.Models.CourseDisciplines.CourseDisciplinesViewModel
+@{
+}
+<div class="container mt-5">
+    <div class="card shadow-sm">
+        <div class="card">
+            <div class="card-body animated--grow-in">
+                <h3 class="card-title text-center mb-4">Course Disciplines</h3>
+                <div class="mb-4">
+                    <input asp-for="CodeName" class="form-control form-control-lg bg-gradient-primary text-light font-weight-bold" style="border-radius: 10px;" readonly />
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover" id="DetailsCourseDisciplines">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Code)</th>
+                                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                                <th>@Html.DisplayNameFor(model => model.Area)</th>
+                                <th>@Html.DisplayNameFor(model => model.Duration)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null)
+                            {
+                                @foreach (var item in Model.Disciplines)
+                                {
+                                    <tr>
+                                        <td class="align-middle font-weight-bold">@Html.DisplayFor(modelItem => item.Code)</td>
+                                        <td class="align-middle">@Html.DisplayFor(modelItem => item.Name)</td>
+                                        <td class="align-middle">@Html.DisplayFor(modelItem => item.Area)</td>
+                                        <td class="align-middle">@Html.DisplayFor(modelItem => item.Duration) Hours</td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="text-center mt-4">
+                <a asp-action="EditCourseDisciplines" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+            </div>
+            <div class="text-center mt-3">
+                <a asp-action="StaffIndexCourses" class="btn btn-link">Back to Courses</a>
+            </div>
+        
+    <div class="mt-4 text-center text-success">
+        <p>@Html.Raw(ViewBag.Message)</p>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+   
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#DetailsCourseDisciplines').DataTable({
+                responsive: true,
+                order: [[1, 'asc']]
+            });
+        });
+    </script>
+}
