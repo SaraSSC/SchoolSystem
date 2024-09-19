@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
 
-namespace SchoolSystem.Models.Evaluations.Students
+namespace SchoolSystem.Models.Evaluations
 {
     public class StudentEvaluation
     {

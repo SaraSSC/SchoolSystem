@@ -1,0 +1,97 @@
+﻿@model SchoolSystem.Models.Students.EditClassStudentsViewModel
+
+@{
+    ViewBag.Title = "Edit Class Students";
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4 animated--fade-in">@ViewData["Title"]</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-body animated--grow-in">
+            <table class="table table-hover" id="AdminIndexDisciplines">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.Students.FirstOrDefault().ProfilePicturePath)</th>
+                        <th>@Html.DisplayNameFor(model => model.Students.FirstOrDefault().FullName)</th>
+                        <th>@Html.DisplayNameFor(model => model.Students.FirstOrDefault().Age)</th>
+                        <th>@Html.DisplayNameFor(model => model.Students.FirstOrDefault().City)</th>
+                        <th>@Html.DisplayNameFor(model => model.Students.FirstOrDefault().PhoneNumber)</th>
+                        <th>@Html.DisplayNameFor(model => model.Students.FirstOrDefault().Email)</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+
+                    {
+                        @foreach (var item in Model.Students)
+
+                        {
+                            <tr>
+                                <td>
+                                    <img src="@Url.Content(item.ProfilePicturePath)" class="img-fluid rounded-circle" style="width: 50px; height: 50px;" />
+                                </td>
+                                <td class="align-middle">@Html.DisplayFor(modelItem => item.FullName)</td>
+                                <td class="align-middle">@Html.DisplayFor(modelItem => item.Age)</td>
+                                <td class="align-middle">@Html.DisplayFor(modelItem => item.City)</td>
+                                <td class="align-middle">@Html.DisplayFor(modelItem => item.PhoneNumber)</td>
+                                <td class="align-middle">@Html.DisplayFor(modelItem => item.Email)</td>
+                                <td id="@Model.ClassId" class="align-middle">
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="form-group text-center">
+        <a asp-action="EditClassStudents" asp-route-id="@Model.ClassId" class="btn btn-outline-primary">
+            <i class="fas fa-edit"></i> Edit
+        </a>
+    </div>
+    <div class="col-md-2 offset-md-5 nav-item text-center">
+        <a asp-action="StaffIndexClasses" asp-controller="Classes" class="btn btn-outline-danger">
+            Back
+        </a>
+    </div>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+
+    {
+        <div class="alert alert-success mt-4 text-center" role="alert">
+            @Html.Raw(ViewBag.Message)
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#EditClassStudents').DataTable({
+                responsive: true,
+                columnDefs: [{
+                    "targets": [0, 6],
+                    "orderable": false,
+                    "searchable": true
+                }],
+                order: [[1, 'asc']]
+            });
+        });
+    </script>
+}
+

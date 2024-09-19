@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SchoolSystem.Models.Evaluations.Students
+namespace SchoolSystem.Models.Evaluations
 {
     public class StudentEvaluationsCourseDetailsViewModel
     {

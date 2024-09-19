@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -10,9 +9,9 @@
     <!--Personalized style-->
     <link rel="stylesheet" href="~/css/site_css.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
-    <link rel="stylesheet" href="~/lib/datatables.net-bs4/css/dataTables.bootstrap4.min.css" />
     <link rel="stylesheet" href="~/lib/bootstrap-datepicker/css/bootstrap-datepicker.min.css" />
 </head>
+
 <body>
     <div id="wrapper" class="d-flex">
         <nav class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
@@ -26,13 +25,15 @@
             @if (this.User.Identity.IsAuthenticated)
             {
                 <br />
-                <li class="nav-item">
+                <li class="nav-item align-content-center">
                     <a asp-controller="Users" asp-action="EditOwnProfile">
-                        <img src="@Url.Content(TempData.Peek("SessionUserProfilePicture").ToString())" alt="Image" class="sidebar-brand-icon" style="vertical-align: middle; width: 44px; height: 44px; border-radius: 50px; margin-left: 45px" />
+                        <div class="d-flex justify-content-center">
+                            <img src="@Url.Content(TempData.Peek("SessionUserProfilePicture").ToString())" alt="Image" class="sidebar-brand-icon" style="width: 100px; height: 100px; border-radius: 50px;" />
+                        </div>
                     </a>
-                    @*  </li>
-                <li class="nav-item"> *@
-                    <a class="nav-link text-warning" asp-area="" asp-controller="Users" asp-action="EditOwnProfile" style="margin-left:30px">@TempData.Peek("SessionUserFirstName").ToString()</a>
+                </li>
+                <li>
+                    <a class="nav-link text-warning text-center" asp-area="" asp-controller="Users" asp-action="EditOwnProfile">@TempData.Peek("SessionUserFirstName").ToString()</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-light" asp-area="" asp-controller="Accounts" asp-action="Logout"><i class="fas fa-fw fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
@@ -137,11 +138,11 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Student Utils:</h6>
                             <a class="collapse-item" asp-controller="Users" asp-action="RegisterStudent">New</a>
-                           
+
                             <a class="collapse-item" asp-controller="Users" asp-action="EditStudents">Edit</a>
-                  
+
                             <a class="collapse-item" asp-controller="Absences" asp-action="RegisterAbsenceClasses">Absences</a>
-                            
+
                             <a class="collapse-item" asp-controller="Evaluations" asp-action="StaffIndexEvaluations"><i class="fas fa-fw fa-solid fa-arrow-up-right-dots"></i><span>Evaluations</span></a>
 
                         </div>
@@ -212,8 +213,10 @@
     </div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib//bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+    
 </body>
 </html>

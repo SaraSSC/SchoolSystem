@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using SchoolSystem.Data;
 using SchoolSystem.Data.Absences;
@@ -22,6 +23,8 @@ using SchoolSystem.Data.Students;
 using SchoolSystem.Helpers.Emails;
 using SchoolSystem.Helpers.Transformers;
 using SchoolSystem.Helpers.Users;
+using SchoolWeb.Data.Students;
+using SchoolWeb.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -43,7 +46,11 @@ namespace SchoolSystem
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            
+            services.AddLogging(loggingBuilder =>
+            {
+                loggingBuilder.AddConsole();
+                loggingBuilder.AddDebug();
+            });
 
             /*
              *  Dependency injection for the User roles
@@ -82,7 +89,7 @@ namespace SchoolSystem
             });
             services.AddTransient<SeedDb>();
             services.AddScoped<IUserHelper, UserHelper>();
-            services.AddScoped<IEmailHelper, EmailHelper>();
+            services.AddScoped<IEmailHelper,EmailHelper>();
             services.AddScoped<IConverterHelper, ConverterHelper>();
 
             services.AddScoped<IGenderRepository, GenderRepository>();

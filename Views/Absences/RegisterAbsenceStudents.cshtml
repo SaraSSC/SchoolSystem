@@ -1,0 +1,133 @@
+﻿@model SchoolSystem.Models.Absences.AbsenceStudentsViewModel
+@{
+    ViewData["Title"] = "Register Absence Students";
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">New Absence</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <form method="post">
+                <input type="hidden" asp-for="ClassId" />
+                <input type="hidden" asp-for="CourseId" />
+                <input type="hidden" asp-for="DisciplineId" />
+                <input type="hidden" asp-for="DisciplineDuration" />
+
+                <div class="mb-3">
+                    <input asp-for="ClassName" class="form-control form-control-lg fw-bold bg-secondary text-white" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <input asp-for="CourseName" class="form-control form-control-lg" readonly />
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-9">
+                        <input asp-for="DisciplineName" class="form-control form-control-lg fw-bold" readonly />
+                    </div>
+                    <div class="col-md-3">
+                        <div class="input-group date" data-provide="datepicker">
+                            <input type="text" asp-for="Date" class="form-control form-control-lg bg-light datepicker" />
+                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                        </div>
+                        <span asp-validation-for="Date" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover" id="AbsencesTable">
+                        <thead>
+                            <tr>
+                                <th>@Html.DisplayNameFor(model => model.Students.FirstOrDefault().ProfilePicturePath)</th>
+                                <th>@Html.DisplayNameFor(model => model.Students.FirstOrDefault().FullName)</th>
+                                <th>@Html.DisplayNameFor(model => model.Students.FirstOrDefault().HoursAbsence)</th>
+                                <th>@Html.DisplayNameFor(model => model.Students.FirstOrDefault().PercentageAbsence)</th>
+                                <th>@Html.DisplayNameFor(model => model.Students.FirstOrDefault().Duration)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Students != null)
+                            {
+                                @for (int i = 0; i < Model.Students.Count(); i++)
+                                {
+                                    <tr>
+                                        <td>
+                                            <input type="hidden" asp-for="@Model.Students[i].UserId" />
+                                            <img src="@Url.Content(@Model.Students[i].ProfilePicturePath)" alt="Profile" class="rounded-circle" style="width: 44px; height: 44px;" />
+                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => Model.Students[i].FullName)</td>
+                                        <td>
+                                            <input type="hidden" asp-for="@Model.Students[i].HoursAbsence" />
+                                            @Html.DisplayFor(modelItem => Model.Students[i].HoursAbsence)
+                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => Model.Students[i].PercentageAbsence)%</td>
+                                        <td>
+                                            <input asp-for="@Model.Students[i].Duration" class="form-control bg-light" min="0" max="100" />
+                                        </td>
+                                        <td>
+                                            @if (Model.Students[i].Failed == true)
+                                            {
+                                                <i class="fas fa-exclamation-triangle text-danger fa-lg"></i>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Register</button>
+                </div>
+
+                <div class="text-danger text-center mt-3" asp-validation-summary="ModelOnly"></div>
+            </form>
+
+            <div class="text-center mt-4">
+                <a asp-controller="Absences" asp-action="RegisterAbsenceDisciplines" asp-route-Id="@Model.ClassId" asp-route-disciplineId="@Model.DisciplineId" class="btn btn-lg btn-outline-danger">Back</a>
+            </div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-success text-center mt-4" role="alert">
+            @Html.Raw(ViewBag.Message)
+        </div>
+    }
+</div>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#EditClassStudents').DataTable({
+                responsive: true,
+                columnDefs: [{
+                    "targets": [0, 6],
+                    "orderable": false,
+                    "searchable": true
+                }],
+                order: [[1, 'asc']]
+            });
+        });
+
+        $('.datepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            orientation: "bottom",
+            autoclose: true
+        });
+    </script>
+}

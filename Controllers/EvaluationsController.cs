@@ -7,7 +7,6 @@ using SchoolSystem.Data.Entities;
 using SchoolSystem.Data.Evaluations;
 using SchoolSystem.Helpers.Transformers;
 using SchoolSystem.Helpers.Users;
-using SchoolSystem.Models.Evaluations.Students;
 using SchoolSystem.Models.Evaluations;
 using System.Collections.Generic;
 using System.Threading.Tasks;

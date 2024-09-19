@@ -1,0 +1,90 @@
+﻿@model IList<SchoolSystem.Models.Evaluations.StudentEvaluationIndexViewModel>
+@{
+    ViewData["Title"] = "Evaluations";
+}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+<link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+<div class="container mt-5">
+    <h1 class="text-center mb-4 animated--fade-in">Evaluations</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-body animated--grow-in">
+            <form method="post">
+            <table class="table table-hover" id="IndexEvaluationsTable">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().ProfilePicturePath)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().FullName)</th>
+                        <th>@Html.DisplayNameFor(model => model.FirstOrDefault().Courses)</th>
+                        
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null)
+                    {
+                        @for (int i = 0; i < Model.Count(); i++)
+                        {
+                            <tr>
+                                <td class="align-middle">
+                                    <img src="@Url.Content(Model[i].ProfilePicturePath)" alt="Image" class="rounded-circle" style="width: 44px; height: 44px;  max-height: 100%; width: auto;" />
+                                </td>
+                                <td class="align-middle">
+                                    @Html.DisplayFor(modelItem => Model[i].FullName)
+
+                                </td>
+                                <td class="align-middle col-md-6">
+                                    <select asp-for="@Model[i].CourseId" asp-items="@Model[i].Courses" class="form-control"></select>
+                                </td>
+                                <td class="align-middle">
+                                    <input type="hidden" asp-for="@Model[i].UserId" />
+                                    <input type="submit" asp-action="StaffIndexEvaluations" asp-route-userId="@Model[i].UserId" value="View" class="btn btn-warning btn-sm" />
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+            </form>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="RegisterEvaluationClasses" class="btn btn-primary">
+            <i class="fas fa-plus"></i> New Evaluation
+        </a>
+    </div>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-success mt-4 text-center" role="alert">
+            @Html.Raw(ViewBag.Message)
+        </div>
+    }
+</div>
+
+
+
+@section Scripts{
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#IndexEvaluationsTable').DataTable({
+                responsive: true,
+                columnDefs: [{
+                    "targets": [0, 3],
+                    "orderable": false,
+                    "searchable": false
+                }],
+                order: [[1, 'asc']]
+            });
+        });
+    </script>
+}
+
+

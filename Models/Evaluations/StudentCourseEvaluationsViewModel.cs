@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SchoolSystem.Models.Evaluations.Students
+namespace SchoolSystem.Models.Evaluations
 {
     public class StudentCourseEvaluationsViewModel
     {

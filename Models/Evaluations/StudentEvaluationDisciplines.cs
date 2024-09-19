@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System;
 
-namespace SchoolSystem.Models.Evaluations.Students
+namespace SchoolSystem.Models.Evaluations
 {
     public class StudentEvaluationDisciplines
     {
@@ -30,7 +30,7 @@ namespace SchoolSystem.Models.Evaluations.Students
         /*
          *This property is used to change the background color of the row in the view to red
          */
-        public string BackgroundColor => (FailedAbsence || FailedGrade) ? "background-color: #FFF2F2" : "";
+        public string BackgroundColor => FailedAbsence || FailedGrade ? "background-color: #FFF2F2" : "";
 
 
     }

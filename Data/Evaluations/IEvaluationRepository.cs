@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using SchoolSystem.Data.Entities;
-using SchoolSystem.Models.Evaluations.Students;
 using SchoolSystem.Models.Evaluations;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,0 +1,32 @@
+﻿@model SchoolSystem.Models.Evaluations.EvaluationCoursesViewModel
+@{
+    ViewData["Title"] = "Evaluations";
+}
+
+<h3 class="text-center my-4">Evaluations</h3>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form method="post" class="animated--grow-in">
+                <input type="hidden" asp-for="UserId" />
+                <div class="mb-3">
+                    <label asp-for="CourseId" class="form-label"></label>
+                    <select asp-for="CourseId" asp-items="Model.Courses" class="form-select bg-light"></select>
+                    <span asp-validation-for="CourseId" class="text-danger small"></span>
+                </div>
+                <div class="text-center">
+                    <input type="submit" value="Next" class="btn btn-primary" />
+                </div>
+                <div class="text-danger text-center mt-3" asp-validation-summary="ModelOnly"></div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+

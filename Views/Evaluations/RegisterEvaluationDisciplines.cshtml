@@ -1,0 +1,71 @@
+﻿@model SchoolSystem.Models.Evaluations.EvaluationDisciplinesViewModel
+@{
+    ViewData["Title"] = "Register Evaluation Disciplines";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">New Evaluation</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-body">
+                    <form method="post">
+                        <input type="hidden" asp-for="ClassId" />
+                        <input type="hidden" asp-for="ClassName" />
+                        <input type="hidden" asp-for="CourseId" />
+                        <input type="hidden" asp-for="CourseName" />
+
+                        <div class="mb-3">
+                            <input asp-for="ClassName" class="form-control form-control-lg fw-bold bg-secondary text-white" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <input asp-for="CourseName" class="form-control form-control-lg" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="DisciplineId" class="form-label">Select Discipline</label>
+                            <select asp-for="DisciplineId" asp-items="Model.Disciplines" class="form-select bg-light">
+                                <option value="">-- Select a Discipline --</option>
+                            </select>
+                            <span asp-validation-for="DisciplineId" class="text-danger small"></span>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary">
+                                Next <i class="fas fa-arrow-right ms-2"></i>
+                            </button>
+                        </div>
+
+                        <div class="text-danger text-center mt-3" asp-validation-summary="ModelOnly"></div>
+                        <div class="d-grid gap-2">
+                            <br />
+                            <a asp-controller="Evaluations" asp-action="RegisterEvaluationClasses" asp-route-id="@Model.ClassId" class="btn btn-outline-danger">
+                                <i class="fas fa-arrow-left me-2"></i> Back
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+           
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

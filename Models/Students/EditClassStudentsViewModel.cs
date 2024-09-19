@@ -2,7 +2,7 @@
 
 namespace SchoolSystem.Models.Students
 {
-    public class EditStudentsViewModel
+    public class EditClassStudentsViewModel
     {
         public int ClassId { get; set; }
 

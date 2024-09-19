@@ -1,50 +1,60 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SchoolSystem.Data.Entities;
-using SchoolSystem.Models.API;
-using SchoolSystem.Models.Students;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using SchoolSystem.Data;
+using SchoolSystem.Data.Entities;
+using SchoolSystem.Data.Students;
+using SchoolSystem.Models.API;
+using SchoolSystem.Models.Students;
 
-namespace SchoolSystem.Data.Students
+namespace SchoolWeb.Data.Students
 {
     public class StudentRepository : GenericRepository<Student>, IStudentRepository
     {
         private readonly DataContext _context;
 
-        public StudentRepository(DataContext context) : base(context)
+        public StudentRepository(DataContext context)
+            : base(context)
         {
             _context = context;
         }
 
-        // Check if the Students table is empty
         public async Task<bool> IsStudentsEmptyAsync()
         {
-            return await _context.Students.FirstOrDefaultAsync() == null;
+            return await _context.Students.FirstOrDefaultAsync() == null ? true : false;
         }
 
-        // Get the IDs of students in a specific class
         public async Task<IQueryable<string>> GetStudentsIdsByClassIdAsync(int classId)
         {
-            var studentsIds = await _context.Students
-                .Where(x => x.ClassId == classId)
-                .Select(x => x.UserId)
-                .ToListAsync();
+            var studentsIds = Enumerable.Empty<string>().AsQueryable();
 
-            return studentsIds.AsQueryable();
+            await Task.Run(() =>
+            {
+                studentsIds = _context.Students
+                .Where(x => x.ClassId == classId)
+                .Select(x => x.UserId);
+            });
+
+            return studentsIds;
         }
 
-        // Get the list of students in a specific class with additional information
         public async Task<IEnumerable<StudentsViewModel>> GetClassStudentsListAsync(IQueryable<string> studentsIds)
         {
-            var students = await (
+            var students = Enumerable.Empty<StudentsViewModel>();
+
+            await Task.Run(() =>
+            {
+                students = (
                 from user in _context.Users
-                join userRole in _context.UserRoles on user.Id equals userRole.UserId
-                join role in _context.Roles on userRole.RoleId equals role.Id
+                join userRole in _context.UserRoles
+                on user.Id equals userRole.UserId
+                join role in _context.Roles
+                on userRole.RoleId equals role.Id
                 where role.Name == "Student" && studentsIds.Contains(user.Id)
-                select new StudentsViewModel
+                select new
                 {
-                    UserId = user.Id,
+                    Id = user.Id,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     BirthDate = user.BirthDate,
@@ -52,78 +62,119 @@ namespace SchoolSystem.Data.Students
                     PhoneNumber = user.PhoneNumber,
                     Email = user.Email,
                     ProfilePicturePath = user.ProfilePicturePath
-                })
-                .ToListAsync();
+                }
+                ).Select(x => new StudentsViewModel
+                {
+                    UserId = x.Id,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
+                    BirthDate = x.BirthDate,
+                    City = x.City,
+                    PhoneNumber = x.PhoneNumber,
+                    Email = x.Email,
+                    ProfilePicturePath = x.ProfilePicturePath
+                });
+            });
 
             return students;
         }
 
-        // Get all students with selectable flag indicating if they belong to a specific class
         public async Task<IQueryable<StudentsSelectable>> GetAllStudentsSelectableAsync(int classId)
         {
-            var studentsSelectable = await (
-                from user in _context.Users
-                join userRole in _context.UserRoles on user.Id equals userRole.UserId
-                join role in _context.Roles on userRole.RoleId equals role.Id
-                where role.Name == "Student"
-                select new StudentsSelectable
-                {
-                    UserId = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    BirthDate = user.BirthDate,
-                    City = user.City,
-                    PhoneNumber = user.PhoneNumber,
-                    Email = user.Email,
-                    ProfilePicturePath = user.ProfilePicturePath,
-                    IsSelected = _context.Students.Any(classStudent => classStudent.ClassId == classId && classStudent.UserId == user.Id)
-                })
-                .ToListAsync();
+            var studentsSelectable = Enumerable.Empty<StudentsSelectable>().AsQueryable();
 
-            return studentsSelectable.AsQueryable();
+            await Task.Run(() =>
+            {
+                studentsSelectable =
+                    (
+                        from user in _context.Users
+                        join userRole in _context.UserRoles
+                        on user.Id equals userRole.UserId
+                        join role in _context.Roles
+                        on userRole.RoleId equals role.Id
+                        where role.Name == "Student"
+                        select user
+                    )
+                    .Select(x => new StudentsSelectable
+                    {
+                        UserId = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        BirthDate = x.BirthDate,
+                        City = x.City,
+                        PhoneNumber = x.PhoneNumber,
+                        Email = x.Email,
+                        ProfilePicturePath = x.ProfilePicturePath,
+                        IsSelected =
+                        (
+                            from classStudents in _context.Students
+                            where classStudents.ClassId == classId
+                            select classStudents.UserId
+                        )
+                        .Contains(x.Id) ? true : false
+                    });
+            });
+
+            return studentsSelectable;
         }
 
-        // Get a specific student in a class
         public async Task<Student> GetClassStudentAsync(int classId, string studentId)
         {
             return await _context.Students
-                .FirstOrDefaultAsync(x => x.ClassId == classId && x.UserId == studentId);
+                .Where(x => x.ClassId == classId && x.UserId == studentId)
+                .FirstOrDefaultAsync();
         }
 
-        // Get the total number of students in a class
         public async Task<int> GetClassStudentsTotalAsync(int classId)
         {
-            return await _context.Students
-                .CountAsync(x => x.ClassId == classId);
+            int studentsInClass = 0;
+
+            await Task.Run(() =>
+            {
+                studentsInClass = _context.Students
+                .Where(x => x.ClassId == classId)
+                .Select(x => x.UserId).Count();
+            });
+            return studentsInClass;
         }
 
-        // Get the list of students in a class identified by class code with additional information
         public async Task<IQueryable<APIViewModel>> GetStudentsByClassCodeAsync(string classCode)
         {
-            var students = await (
-                from user in _context.Users
-                join userRole in _context.UserRoles on user.Id equals userRole.UserId
-                join role in _context.Roles on userRole.RoleId equals role.Id
-                join classStudent in _context.Students on user.Id equals classStudent.UserId
-                join clas in _context.Classes on classStudent.ClassId equals clas.Id
-                where role.Name == "Student" && clas.Code == classCode
-                select new APIViewModel
-                {
-                    Id = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Gender = _context.Genders.FirstOrDefault(y => y.Id == user.GenderId).Name,
-                    Qualification = _context.Qualifications.FirstOrDefault(y => y.Id == user.QualificationId).Name,
-                    CcNumber = user.CcNumber,
-                    BirthDate = user.BirthDate,
-                    Address = user.Address,
-                    City = user.City,
-                    PhoneNumber = user.PhoneNumber,
-                    Email = user.Email
-                })
-                .ToListAsync();
+            var students = Enumerable.Empty<APIViewModel>().AsQueryable();
 
-            return students.AsQueryable();
+            await Task.Run(() =>
+            {
+                students =
+                    (
+                        from user in _context.Users
+                        join userRole in _context.UserRoles
+                        on user.Id equals userRole.UserId
+                        join role in _context.Roles
+                        on userRole.RoleId equals role.Id
+                        join classStudent in _context.Students
+                        on user.Id equals classStudent.UserId
+                        join clas in _context.Classes
+                        on classStudent.ClassId equals clas.Id
+                        where role.Name == "Student" && clas.Code == classCode
+                select user
+                    )
+                    .Select(x => new APIViewModel
+                    {
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        Gender = _context.Genders.Where(y => y.Id == x.GenderId).FirstOrDefault().Name,
+                        Qualification = _context.Qualifications.Where(y => y.Id == x.QualificationId).FirstOrDefault().Name,
+                        CcNumber = x.CcNumber,
+                        BirthDate = x.BirthDate,
+                        Address = x.Address,
+                        City = x.City,
+                        PhoneNumber = x.PhoneNumber,
+                        Email = x.Email
+                    });
+            });
+
+            return students;
         }
     }
 }

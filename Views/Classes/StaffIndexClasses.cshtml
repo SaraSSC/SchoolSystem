@@ -39,7 +39,7 @@
                                     <a asp-action="EditClass" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                    <a asp-controller="Students" asp-action="StaffIndexClassStudents" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm" >
+                                    <a asp-action="StaffIndexClassStudents" asp-controller="ClassStudents" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm" >
                                         <i class="fas fa-user-group"></i> Students
                                     </a>
                                 </td>

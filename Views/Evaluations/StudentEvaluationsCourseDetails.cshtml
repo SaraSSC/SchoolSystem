@@ -1,0 +1,85 @@
+﻿@model SchoolSystem.Models.Evaluations.StudentEvaluationsCourseDetailsViewModel
+@{
+    ViewData["Title"] = "StudentEvaluationsCourseDetails";
+}
+
+<h3 class="text-center my-4">Evaluations</h3>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card shadow-sm animated--grow-in">
+                <div class="card-body">
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-auto">
+                            <input asp-for="CourseName" class="form-control bg-gradient-primary text-white" style="height: 3rem;" disabled />
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.Disciplines.FirstOrDefault().Code)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Disciplines.FirstOrDefault().Name)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Disciplines.FirstOrDefault().Duration)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Disciplines.FirstOrDefault().HoursAbsence)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Disciplines.FirstOrDefault().PercentageAbsence)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Disciplines.FirstOrDefault().Date)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Disciplines.FirstOrDefault().Grade)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Disciplines != null)
+
+                                {
+                                    @foreach (var item in Model.Disciplines)
+
+                                    {
+                                        <tr style="@item.BackgroundColor">
+                                            <td class="align-middle font-weight-bold">@Html.DisplayFor(modelItem => item.Code)</td>
+                                            <td class="align-middle">@Html.DisplayFor(modelItem => item.Name)</td>
+                                            <td class="align-middle">@Html.DisplayFor(modelItem => item.Duration)</td>
+                                            <td class="align-middle">@Html.DisplayFor(modelItem => item.HoursAbsence)</td>
+                                            <td class="align-middle font-weight-bold">
+                                                @if (item.FailedAbsence == true)
+
+                                                {
+                                                    <span class="text-danger">@Html.DisplayFor(modelItem => item.PercentageAbsence)<span>%</span></span>
+                                                }
+
+                                                else
+
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.PercentageAbsence)
+
+                                                    <span>%</span>
+                                                }
+                                            </td>
+                                            <td class="align-middle">@Html.DisplayFor(modelItem => item.Date)</td>
+                                            <td class="align-middle font-weight-bold">
+                                                @if (item.FailedGrade == true)
+
+                                                {
+                                                    <span class="text-danger">@Html.DisplayFor(modelItem => item.Grade)</span>
+                                                }
+
+                                                else
+
+                                                {
+                                                    @Html.DisplayFor(modelItem => item.Grade)
+                                                }
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="text-center mt-4">
+                        <a asp-controller="Evaluations" asp-action="StudentEvaluationsCourses" asp-route-userName="@this.User.Identity.Name" class="btn btn-outline-danger"><i class="fas fa-arrow-left"></i>Back</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

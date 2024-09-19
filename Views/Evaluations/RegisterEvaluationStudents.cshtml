@@ -1,0 +1,137 @@
+﻿@model SchoolSystem.Models.Evaluations.EvaluationStudentsViewModel
+@{
+    ViewData["Title"] = "Register Evaluation Students";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+<div class="container mt-5">
+    <h2 class="text-center mb-4">New Evaluation</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <form method="post">
+                <input type="hidden" asp-for="ClassId" />
+                <input type="hidden" asp-for="CourseId" />
+                <input type="hidden" asp-for="DisciplineId" />
+
+                <div class="mb-3">
+                    <input asp-for="ClassName" class="form-control form-control-lg fw-bold bg-secondary text-white" readonly />
+                </div>
+
+                <div class="mb-3">
+                    <input asp-for="CourseName" class="form-control form-control-lg" readonly />
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-8 mb-3 mb-md-0">
+                        <input asp-for="DisciplineName" class="form-control form-control-lg fw-bold" readonly />
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <input type="text" asp-for="Date" class="form-control form-control-lg bg-light datepicker" />
+                            <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                        </div>
+                        <span asp-validation-for="Date" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover" id="EvaluationsTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Students.FirstOrDefault().ProfilePicturePath)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Students.FirstOrDefault().FullName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Students.FirstOrDefault().Grade)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Students.FirstOrDefault().EvaluationDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Students.FirstOrDefault().NewGrade)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Students != null)
+                            {
+                                @for (int i = 0; i < Model.Students.Count(); i++)
+                                {
+                                    <tr>
+                                        <td class="align-middle">
+                                            <input type="hidden" asp-for="@Model.Students[i].UserId" />
+                                            <img src="@Url.Content(@Model.Students[i].ProfilePicturePath)" alt="Image" class="rounded-circle" style="width: 44px; height: 44px;  max-height: 100%; width: auto;" />
+                                        </td>
+                                        <td class="align-middle">
+                                            @Html.DisplayFor(modelItem => Model.Students[i].FullName)
+                                        </td>
+                                        <td class="align-middle">
+                                            <input type="hidden" asp-for="@Model.Students[i].Grade" />
+                                            @Html.DisplayFor(modelItem => Model.Students[i].Grade)
+                                        </td>
+                                        <td class="align-middle">
+                                            @Html.DisplayFor(modelItem => Model.Students[i].EvaluationDate)
+                                        </td>
+                                        <td class="align-middle col-md-3">
+                                            <input asp-for="@Model.Students[i].NewGrade" class="form-control bg-light" min="0" max="20" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Register Evaluations</button>
+                </div>
+                <div class="d-grid gap-2 mt-4">
+                    <a asp-controller="Evaluations" asp-action="RegisterEvaluationDisciplines" asp-route-Id="@Model.ClassId" asp-route-disciplineId="@Model.DisciplineId" class="btn btn-large btn-outline-danger">
+                        <i class="fas fa-arrow-left me-2"></i> Back
+                    </a>
+                </div>
+                <div class="text-danger text-center mt-3" asp-validation-summary="ModelOnly"></div>
+               
+            </form>
+
+            
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(ViewBag.Message))
+    {
+        <div class="alert alert-success text-center mt-4" role="alert">
+            @Html.Raw(ViewBag.Message)
+        </div>
+    }
+</div>
+
+@section Scripts{
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+   <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#EvaluationsTable').DataTable({
+                "pageLength": 10,
+                "lengthChange": false,
+                "searching": true,
+                "info": false
+            });
+
+            $('.datepicker').datepicker({
+                format: 'dd/mm/yyyy',
+                orientation: "bottom auto",
+                autoclose: true
+            });
+        });
+    </script>
+}

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System;
-using SchoolSystem.Models.Evaluations.Students;
 
 namespace SchoolSystem.Models.Evaluations
 {

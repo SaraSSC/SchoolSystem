@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolSystem.Data.Configurations;
 using SchoolSystem.Data.Entities;
-using SchoolSystem.Models.Evaluations.Students;
 using SchoolSystem.Models.Evaluations;
 using System.Collections.Generic;
 using System.Linq;
