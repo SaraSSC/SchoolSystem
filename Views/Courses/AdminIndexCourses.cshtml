@@ -34,10 +34,10 @@
                                 <td class="align-middle">@Html.DisplayFor(modelItem => item.Area)</td>
                                 <td class="align-middle">@Html.DisplayFor(modelItem => item.Duration) Hours</td>
                                 <td id="@item.Id" class="align-middle">
-                                    <a asp-action="EditDiscipline" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">
+                                    <a asp-action="EditCourse" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                    <a asp-action="DeleteDiscipline" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm" id="btnDeleteItem">
+                                    <a asp-action="DeleteCourse" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm" id="btnDeleteItem">
                                         <i class="fas fa-trash-alt"></i> Delete
                                     </a>
                                 </td>

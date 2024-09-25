@@ -53,9 +53,10 @@
                                 <span asp-validation-for="LastName" class="text-danger small"></span>
                             </div>
                             <div class="col-md-6">
-                                <label asp-for="GenderId" class="form-label">Gender</label>
+                                <label asp-for="GenderId" class="form-label gender">Gender</label>
                                 <select asp-for="GenderId" asp-items="Model.Genders" class="form-select"></select>
                                 <span asp-validation-for="GenderId" class="text-danger small"></span>
+                                
                             </div>
                             <div class="col-md-6">
                                 <label asp-for="QualificationId" class="form-label">Qualification</label>
@@ -138,6 +139,8 @@
 
             let date = document.getElementById("BirthDate").value;
             document.getElementById("BirthDate").value = date.split(' ')[0];
+
+           
         });
     </script>
 }

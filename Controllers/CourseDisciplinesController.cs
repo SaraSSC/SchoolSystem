@@ -9,13 +9,7 @@ using SchoolSystem.Data.Entities;
 using SchoolSystem.Helpers.Transformers;
 using SchoolSystem.Models.CourseDisciplines;
 using SchoolSystem.Models.Courses;
-using SchoolSystem.Data.CoursesDisciplines;
-using SchoolSystem.Data.Courses;
-using SchoolSystem.Data.Disciplines;
-using SchoolSystem.Data.Entities;
-using SchoolSystem.Helpers.Transformers;
-using SchoolSystem.Models.CourseDisciplines;
-using SchoolSystem.Models.Courses;
+
 
 namespace SchoolWeb.Controllers
 {
