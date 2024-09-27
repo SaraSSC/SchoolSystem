@@ -46,7 +46,14 @@ public class AccountsController : Controller
     {
         if (User.Identity.IsAuthenticated)
         {
-            return RedirectToAction("Index", "Home");
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("AdminIndexReports", "Reports");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
 
         return View();
@@ -283,7 +290,7 @@ public class AccountsController : Controller
                 (
                     model.Email,
                     "Password Reset",
-                    "<h3>SchoolWeb Password Reset</h3>" +
+                    "<h3>SchoolSystem Password Reset</h3>" +
                     $"<p>Dear {user.FullName}, to reset your password click <a href = \"{link}\">here</a>.</p>" +
                     "<p>Thank you.</p>"
                 );

@@ -285,7 +285,7 @@ namespace SchoolSystem.Controllers
                     (
                         email,
                         "Activate Account",
-                        "<h3>Activate SchoolWeb Account</h3>" +
+                        "<h3>Activate your SchoolSystem Account</h3>" +
                         $"<p>Dear {fullName}, you are now registered at SchoolWeb.</p>" +
                         $"<p>Please click <a href=\"{tokenLink}\">here</a> to activate your account.</p>" +
                         "<p>Thank you.</p>"
