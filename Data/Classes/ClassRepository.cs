@@ -5,6 +5,7 @@ using SchoolSystem.Models.Home;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace SchoolSystem.Data.Classes
 {
@@ -80,5 +81,12 @@ namespace SchoolSystem.Data.Classes
 
             return classes.AsQueryable();
         }
+
+        public async Task<Class> GetByCourseIdAsync(int courseId)
+        {
+            return await _context.Classes.FirstOrDefaultAsync(x => x.CourseId == courseId);
+        }
+
+        
     }
 }

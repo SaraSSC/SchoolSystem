@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using SchoolSystem.Models.API;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace SchoolSystem.Data
@@ -16,6 +18,7 @@ namespace SchoolSystem.Data
         Task DeleteAsync(T entity);
 
         Task<bool> ExistAsync(int id);
+       
     }
 }
 

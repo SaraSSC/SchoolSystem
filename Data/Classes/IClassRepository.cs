@@ -20,5 +20,7 @@ namespace SchoolSystem.Data.Classes
         Task<IEnumerable<SelectListItem>> GetComboClassesAsync();
 
         Task<IQueryable<HomeClassViewModel>> GetHomeClassesAsync();
+
+        Task<Class> GetByCourseIdAsync(int courseId);
     }
 }

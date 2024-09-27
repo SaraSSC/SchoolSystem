@@ -20,6 +20,13 @@ namespace SchoolSystem.Data.Entities
         public string UserId { get; set; }
 
         public User User { get; set; }
+
+
+        //Comes from the Class entity
+        [Display(Name = "Course")]
+        public int CourseId { get; set; }
+
+       
     }
 }
 

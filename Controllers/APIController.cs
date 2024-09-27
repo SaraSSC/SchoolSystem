@@ -6,6 +6,7 @@ using SchoolSystem.Data.Courses;
 using SchoolSystem.Data.Evaluations;
 using SchoolSystem.Data.Students;
 using SchoolSystem.Helpers.Users;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -20,6 +21,7 @@ namespace SchoolSystem.Controllers
         private readonly IUserHelper _userHelper;
         private readonly ICourseRepository _courseRepository;
         private readonly IEvaluationRepository _evaluationRepository;
+        private readonly IStudentRepository _studentRepository;
 
         public APIController
             (
@@ -27,7 +29,8 @@ namespace SchoolSystem.Controllers
                 IStudentRepository classStudentRepository,
                 IUserHelper userHelper,
                 ICourseRepository courseRepository,
-                IEvaluationRepository evaluationRepository
+                IEvaluationRepository evaluationRepository,
+                IStudentRepository studentRepository
             )
         {
             _classRepository = classRepository;
@@ -35,6 +38,7 @@ namespace SchoolSystem.Controllers
             _userHelper = userHelper;
             _courseRepository = courseRepository;
             _evaluationRepository = evaluationRepository;
+            _studentRepository = studentRepository;
         }
 
         // Retrieves the students in a class based on the class code
@@ -167,5 +171,22 @@ namespace SchoolSystem.Controllers
 
             return Ok(evaluation);
         }
+
+        // Retrieves the students by a course id
+        [HttpGet]
+        [Route("api/GetStudentsByCourseId/{courseId}")]
+        public async Task<IActionResult> GetStudentsByCourseId(int courseId)
+        {
+            var students = await _studentRepository.GetStudentsByCourseIdsAsync(new List<int> { courseId });
+
+            if (!students.Any())
+            {
+                return NotFound($"No students found for course with id '{courseId}'");
+            }
+
+            return Ok(students);
+        }
+        
+       
     }
 }

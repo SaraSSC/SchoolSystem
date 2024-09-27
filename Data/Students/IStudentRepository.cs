@@ -22,5 +22,8 @@ namespace SchoolSystem.Data.Students
         Task<int> GetClassStudentsTotalAsync(int classId);
 
         Task<IQueryable<APIViewModel>> GetStudentsByClassCodeAsync(string classCode);
+
+        Task<IQueryable<APIViewModel>> GetStudentsByCourseIdsAsync(List<int> courseIds);
+
     }
 }

@@ -176,5 +176,54 @@ namespace SchoolWeb.Data.Students
 
             return students;
         }
+
+        public async Task<IQueryable<APIViewModel>> GetStudentsByCourseIdsAsync(List<int> courseIds)
+        {
+            var students = Enumerable.Empty<APIViewModel>().AsQueryable();
+
+            await Task.Run(() =>
+            {
+                students =
+                    (
+                        from user in _context.Users
+                        join userRole in _context.UserRoles
+                        on user.Id equals userRole.UserId
+                        join role in _context.Roles
+                        on userRole.RoleId equals role.Id //end check roles
+                        join classStudent in _context.Students
+                        on user.Id equals classStudent.UserId
+                        join clas in _context.Classes
+                        on classStudent.ClassId equals clas.Id
+                        where role.Name == "Student" && clas.CourseId == courseIds.FirstOrDefault()
+                        select user
+                    )
+                    .Select(x => new APIViewModel
+                    {
+                        Id = x.Id,
+                        FirstName = x.FirstName,
+                        LastName = x.LastName,
+                        Gender = _context.Genders.Where(y => y.Id == x.GenderId).FirstOrDefault().Name,
+                        Qualification = _context.Qualifications.Where(y => y.Id == x.QualificationId).FirstOrDefault().Name,
+                        CcNumber = x.CcNumber,
+                        BirthDate = x.BirthDate,
+                        Address = x.Address,
+                        City = x.City,
+                        PhoneNumber = x.PhoneNumber,
+                        Email = x.Email
+                    });
+            });
+
+            return students;
+
+            //var students = await _context.Students
+            //    .Where(s => courseIds.Contains(s.CourseId))
+            //    .Select(s => new APIViewModel
+            //    {
+            //        Id = s.Id.ToString()
+            //    })
+            //    .ToListAsync();
+
+            //return students.AsQueryable();
+        }
     }
 }
